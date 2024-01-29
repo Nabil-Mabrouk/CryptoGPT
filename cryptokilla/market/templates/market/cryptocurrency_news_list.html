@@ -1,0 +1,28 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>Cryptocurrency News</h2>
+  <a href="{% url 'cryptocurrencynews-create' %}" class="btn btn-primary mb-3">Create News</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Cryptocurrency</th>
+        <th>Title</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for news in cryptocurrency_news %}
+        <tr>
+          <td>{{ news.cryptocurrency.name }}</td>
+          <td>{{ news.title }}</td>
+          <td>
+            <a href="{% url 'cryptocurrencynews-detail' news.id %}" class="btn btn-info btn-sm">Details</a>
+            <a href="{% url 'cryptocurrencynews-update' news.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'cryptocurrencynews-delete' news.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

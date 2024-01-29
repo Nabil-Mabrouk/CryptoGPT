@@ -1,0 +1,11 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>Config List</h2>
+  <ul>
+    {% for config in configs %}
+      <li><a href="{% url 'config-update' pk=config.id %}">{{ config }}</a> | <a href="{% url 'config-delete' pk=config.id %}">Delete</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'config-create' %}">Create New Config</a>
+{% endblock %}

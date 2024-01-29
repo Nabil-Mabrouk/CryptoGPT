@@ -1,0 +1,6 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>{{ trading_pair.base_currency.name }} / {{ trading_pair.quote_currency.name }}</h2>
+  <a href="{% url 'tradingpair-list' %}" class="btn btn-secondary">Back to Trading Pairs</a>
+{% endblock %}

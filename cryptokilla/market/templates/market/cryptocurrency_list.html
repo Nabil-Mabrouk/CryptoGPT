@@ -1,0 +1,28 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>Cryptocurrencies</h2>
+  <a href="{% url 'cryptocurrency-create' %}" class="btn btn-primary mb-3">Create Cryptocurrency</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cryptocurrency in cryptocurrencies %}
+        <tr>
+          <td>{{ cryptocurrency.name }}</td>
+          <td>{{ cryptocurrency.symbol }}</td>
+          <td>
+            <a href="{% url 'cryptocurrency-detail' cryptocurrency.id %}" class="btn btn-info btn-sm">Details</a>
+            <a href="{% url 'cryptocurrency-update' cryptocurrency.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'cryptocurrency-delete' cryptocurrency.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

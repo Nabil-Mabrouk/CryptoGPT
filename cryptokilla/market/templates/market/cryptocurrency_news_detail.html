@@ -1,0 +1,7 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>{{ news.cryptocurrency.name }} News: {{ news.title }}</h2>
+  <p>{{ news.content }}</p>
+  <a href="{% url 'cryptocurrencynews-list' %}" class="btn btn-secondary">Back to News</a>
+{% endblock %}

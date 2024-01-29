@@ -1,0 +1,9 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>{{ cryptocurrency.name }} ({{ cryptocurrency.symbol }})</h2>
+  <p>Description: {{ cryptocurrency.description }}</p>
+  <p>Website: {{ cryptocurrency.website }}</p>
+  <p>Is Stablecoin: {{ cryptocurrency.is_stablecoin }}</p>
+  <a href="{% url 'cryptocurrency-list' %}" class="btn btn-secondary">Back to Cryptocurrencies</a>
+{% endblock %}

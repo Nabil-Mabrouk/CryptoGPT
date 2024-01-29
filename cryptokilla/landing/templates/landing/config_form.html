@@ -1,0 +1,11 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>{% if config.id %}Edit{% else %}Create{% endif %} Config</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'config-list' %}">Back to Config List</a>
+{% endblock %}

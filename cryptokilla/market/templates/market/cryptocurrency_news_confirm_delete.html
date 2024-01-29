@@ -1,0 +1,11 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>Confirm Deletion</h2>
+  <p>Are you sure you want to delete "{{ cryptocurrency_news }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm</button>
+  </form>
+  <a href="{% url 'cryptocurrencynews-list' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

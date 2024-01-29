@@ -1,0 +1,28 @@
+{% extends 'landing/base.html' %}
+
+{% block content %}
+  <h2>Trading Pairs</h2>
+  <a href="{% url 'tradingpair-create' %}" class="btn btn-primary mb-3">Create Trading Pair</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Base Currency</th>
+        <th>Quote Currency</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trading_pair in trading_pairs %}
+        <tr>
+          <td>{{ trading_pair.base_currency.name }}</td>
+          <td>{{ trading_pair.quote_currency.name }}</td>
+          <td>
+            <a href="{% url 'tradingpair-detail' trading_pair.id %}" class="btn btn-info btn-sm">Details</a>
+            <a href="{% url 'tradingpair-update' trading_pair.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'tradingpair-delete' trading_pair.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
