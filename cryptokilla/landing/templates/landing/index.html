@@ -8,13 +8,13 @@
         /*TO DO : to be selected from a list */
         --default-text-color: rgb(255, 255, 255);
         /* Can be selected by user */
-        --background-image-url: url('{% static 'landing/images/header-bg.jpg' %}');
+        --background-image-url: url('{% static 'header-background.jpg' %}');
         /* sizes: 1280x720 or 1920x1080 */
-        --background-color-default: rgb(0, 0, 0, 0.7);
+        --background-color-default: rgb(0, 0, 0, 0.3);
         --navbar-background-color: transparent;
-        --navbar-scrolled-background-color: rgba(0, 0, 0, 0.5);
+        --navbar-scrolled-background-color: rgba(0, 0, 0, 0.3);
         --navbar-scrolled-background-blur: 10px;
-        --btn-navbar-background-color: {{config.navbar_btn_color}};
+        /*--btn-navbar-background-color: {{config.navbar_btn_color}};*/
     }
 
     body {
@@ -24,11 +24,11 @@
         background-blend-mode: multiply;
         background-position: center;
         background-size: cover;
-        background-repeat: no-repeat;
+        /*background-repeat: no-repeat;*/
     }
 
     .navbar {
-        background-color: var(--navbar-background-color);
+        background-color: var(--navbar-background-color) !important;
         transition: all 0.5s ease-in-out;
     }
 
@@ -44,46 +44,44 @@
 {% endblock %}
 
 {% block content %}
-<section id="home" class="wh-100 vh-100 container d-flex flex-lg-column justify-content-center">
-    <section id="home" class="wh-100 vh-100 container d-flex flex-lg-column justify-content-center">
-        <div class="d-flex flex-lg-row justify-content-around align-items-center flex-wrap"
-        style="margin-top:20px;">
+<section id="home" class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center fs-1">
+        <div class="container d-flex flex-row justify-content-center align-items-center">
         {%if config.home_image_prosition == 'left' %}
         <div class="col-md-6">
             <img src={{config.home_image_url}} alt=".." class="img-fluid"></img>
         </div>
         <div class="col-md-6">
-            <h1>{{config.home_text_title}}</h1>
-            <h3>{{config.home_text_subtitle}}</h3>
+            <h1 style="font-size:1.5em">{{config.home_text_title}}</h1>
+            <h1 style="font-size:0.9em">{{config.home_text_subtitle}}</h1>
             <p>{{config.home_text_paragraph}}</p>
         </div>
         {%elif config.home_image_prosition == 'right' %}
         <div class="col-md-6">
-            <h1>{{config.home_text_title}}</h1>
-            <h3>{{config.home_text_subtitle}}</h3>
-            <p>{{config.home_text_paragraph}}</p>
+            <h1 style="font-size:1.5em">{{config.home_text_title}}</h1>
+            <h1 style="font-size:0.9em">{{config.home_text_subtitle}}</h1>
+            <h4>{{config.home_text_paragraph}}</h4>
         </div>
         <div class="col-md-6">
             <img src={{config.home_image_url}} alt=".." class="img-fluid"></img>
         </div>
         {%elif config.home_image_prosition == 'center' %}
         <div class="col-lg-12" align="center">
-            <h1>{{config.home_text_title}}</h1>
-            <h3>{{config.home_text_subtitle}}</h3>
-            <p>{{config.home_text_paragraph}}</p>
+            <h1 style="font-size:1.5em">{{config.home_text_title}}</h1>
+            <h1 style="font-size:0.9em">{{config.home_text_subtitle}}</h1>
+            <h4>{{config.home_text_paragraph}}</h4>
             <img src={{config.home_image_url}} alt=".." class="img-fluid"></img>
         </div>
         {%else%}
         <div class="col-lg-12" align="center">
-            <h1>{{config.home_text_title}}</h1>
-            <h3>{{config.home_text_subtitle}}</h3>
-            <p>{{config.home_text_paragraph}}</p>
+            <h1 style="font-size:1.5em">{{config.home_text_title}}</h1>
+            <h1 style="font-size:0.9em">{{config.home_text_subtitle}}</h1>
+            <h4>{{config.home_text_paragraph}}</h4>
         </div>
         {%endif%}
         </div>
     </section>
 
-    <section id="feature" class="w-100 vh-100 container d-flex flex-lg-column justify-content-start"
+    <section id="feature" class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center fs-1"
         style="background-color:{{config.features_background_color}};">
         <h1>Features</h1>
 
@@ -99,6 +97,5 @@
             {%endfor%}
         </div>
     </section>
-</section>
 {% endblock %}
 

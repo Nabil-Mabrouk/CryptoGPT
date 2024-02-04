@@ -1,0 +1,47 @@
+version: "3.11"
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file: .env
+  redis:
+    image: redis:latest
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/cryptokilla
+      - static_volume:/usr/src/cryptokilla/staticfiles
+      - media_volume:/usr/src/cryptokilla/mediafiles
+    env_file: .env
+    command: ["sh", "-c", "python3 manage.py makemigrations; python3 manage.py migrate; python3 manage.py collectstatic --no-input; gunicorn cryptokilla.wsgi:application --bind 0.0.0.0:8000"]
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+  celery:
+    restart: always
+    env_file: .env
+    build: .
+    command: ["sh", "-c", "celery -A cryptokilla worker --pool=solo -l info;"]
+    depends_on:
+      - db
+      - redis
+      - web
+
+  celery-beat:
+    restart: always
+    build: .
+    command: ["sh", "-c", "celery -A cryptokilla beat -l info;"]
+    depends_on:
+      - db
+      - redis
+      - web
+volumes:
+    postgres_data:
+    static_volume:
+    media_volume:

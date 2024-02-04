@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Simulation</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        /* Your CSS styles here. */
+    </style>
+</head>
+<body>
+<script>
+// Dataset with more points and diameters
+let data = [
+    { id: 'BTC', x: 50, return: 50, volume: 80 },
+    { id: 'ETH', x: 150, return: 100, volume: 50 },
+    // Add more points as needed
+];
+
+// Same setting SVG and scales code here.
+
+let svg;
+let xScale;
+let yScale;
+
+function setupChart() {
+      // Calculate window size based on data extent
+  const maxX = d3.max(data, d => d.x + d.volume);
+  const maxY = d3.max(data, d => d.return + d.volume);
+
+  const margin = { top: 50, right: 50, bottom: 50, left: 100 };
+  const width = maxX + margin.left + margin.right;
+  const height = maxY + margin.top + margin.bottom;
+
+  // Create an SVG container
+  svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  // Create x and y scales
+  xScale = d3.scaleLinear()
+    .domain([0, maxX])
+    .range([0, maxX]);
+
+  yScale = d3.scaleLinear()
+    .domain([0, maxY])
+    .range([maxY, 0]);
+
+  // Add box around the visualization
+  svg.append("rect")
+    .attr("class", "box")
+    .attr("width", maxX)
+    .attr("height", maxY)
+    .attr("stroke-dasharray", "5,5")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Add x-axis with ticks
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", `translate(${margin.left},${maxY + margin.top})`)
+    .call(d3.axisBottom(xScale).ticks(5));
+
+  // Add y-axis with ticks
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", `translate(${margin.left},${margin.top})`)
+    .call(d3.axisLeft(yScale).ticks(5));
+}
+
+setupChart();
+
+let simulation = d3.forceSimulation(data)
+    // force settings
+    // Same code from your script
+
+let circles = svg.selectAll("circle")
+    .data(data)
+    .enter().append("circle")
+    // same circle-related code from your script
+
+simulation.on("tick", function() {
+    circles
+        .attr("cx", d => xScale(d.x))
+        .attr("cy", d => yScale(d.return));
+});
+
+function updateData() {
+    data = data.map(item => ({
+        ...item,
+        return: item.return * (1 + (Math.random() - 0.5) * 0.04),   // Random change by +- 2%
+        volume: item.volume * (1 + (Math.random() - 0.5) * 0.04)   // Random change by +- 2%
+    }));
+
+    // Recalculate maxX and maxY for updated data 
+    // Same code from your script
+}
+
+function updateChart() {
+     // Remove old circles
+    svg.selectAll("circle").remove();
+
+    // Update scales if maxX, maxY are changed in updateData() function
+
+    // Add new circles
+    circles = svg.selectAll("circle")
+        .data(data)
+        .enter().append("circle")
+        .attr("r", d => d.volume / 2)
+        .attr("cx", d => xScale(d.x))
+        .attr("cy", d => yScale(d.return));
+
+    // Update simulation with new forces
+  // Create a force simulation for each node
+  const simulations = data.map(data => {
+    return d3.forceSimulation(data)
+      .force("x", d3.forceX((d, i) => xScale(d.time[i])).strength(0.001))
+      .force("y", d3.forceY((d, i) => yScale(d.return[i])).strength(0.05))
+      .force("collide", d3.forceCollide((d, i) => d.volume[i] / 2))
+      .force("xCenter", d3.forceX(width / 2).strength(0.1));
+  });
+
+    simulation.on("tick", function() {
+        circles
+            .attr("cx", d => xScale(d.x))
+            .attr("cy", d => yScale(d.return));
+    });
+}
+
+setInterval(function() {
+    updateData();
+    updateChart();
+}, 100);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,9 +1,185 @@
 {% extends 'landing/base.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+
+<style>
+    :root {
+        --main-font: 'Poppins', sans-serif;
+        /*TO DO : to be selected from a list */
+        --default-text-color: rgb(255, 255, 255);
+        /* Can be selected by user */
+        --background-image-url: url('{% static 'landing/images/header-background.jpg' %}');
+        /* sizes: 1280x720 or 1920x1080 */
+        --background-color-default: rgb(0, 0, 0, 0.3);
+        --navbar-background-color: transparent;
+        --navbar-scrolled-background-color: rgba(0, 0, 0, 0.3);
+        --navbar-scrolled-background-blur: 10px;
+        /*--btn-navbar-background-color: {{config.navbar_btn_color}};*/
+    }
+
+    body {
+        font-family: var(--main-font);
+        color: var(--default-text-color);
+        background: var(--background-image-url) var(--background-color-default);
+        background-blend-mode: multiply;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .navbar {
+        background-color: var(--navbar-background-color) !important;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .navbar-scrolled {
+        background-color: var(--navbar-scrolled-background-color);
+        backdrop-filter: blur(var(--navbar-scrolled-background-blur));
+    }
+
+    .navbar-btn {
+        background-color: var(--btn-navbar-background-color);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-  <h2>{{ cryptocurrency.name }} ({{ cryptocurrency.symbol }})</h2>
-  <p>Description: {{ cryptocurrency.description }}</p>
-  <p>Website: {{ cryptocurrency.website }}</p>
-  <p>Is Stablecoin: {{ cryptocurrency.is_stablecoin }}</p>
-  <a href="{% url 'cryptocurrency-list' %}" class="btn btn-secondary">Back to Cryptocurrencies</a>
+  <section id="cryptocurrency-detail" class="w-80 vh-100 d-flex flex-row justify-content-center align-items-start" style="margin-top:100px;">
+    <div class="container mt-5 ">
+    <h2>{{ cryptocurrency.name }} ({{ cryptocurrency.symbol }}) - Detail</h2>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs" id="cryptoTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="dashboard-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="false">General Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="market-tab" data-toggle="tab" href="#market" role="tab" aria-controls="market" aria-selected="false">Market Data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="trades-tab" data-toggle="tab" href="#trades" role="tab" aria-controls="trades" aria-selected="false">Trades</a>
+      </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content mt-3" id="cryptoTabsContent">
+      <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+        <h3>Your Cryptocurrency Dashboard</h3>
+        <div class="row">
+          <!-- Last Market Data -->
+          <div class="col-6">
+            <h4>Last Market Data</h4>
+            {% if trading_pair.market_data %}
+              <p>OHLCV Data: {{ trading_pair.market_data }}</p>
+            {% else %}
+              <p>No market data available.</p>
+            {% endif %}
+          </div>
+    
+          <!-- Last Trades -->
+          <div class="col-6">
+            <h4>Last Trades</h4>
+            {% for trade in cryptocurrency.trade_set.all %}
+              <div>
+                <p>Action: {{ trade.get_action_display }}</p>
+                <p>Quantity: {{ trade.quantity }}</p>
+                <p>Price: {{ trade.price }}</p>
+                <p>Timestamp: {{ trade.timestamp }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+    
+        <!-- Last News Releases -->
+        <div class="row">
+          <div class="col-12">
+            <h4>Last News Releases</h4>
+            {% for news in cryptocurrency.news_set.all %}
+              <div>
+                <p>Title: {{ news.title }}</p>
+                <p>Content: {{ news.content }}</p>
+                <p>Source: <a href="{{ news.source }}" target="_blank">{{ news.source }}</a></p>
+                <p>Timestamp: {{ news.timestamp }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    
+
+
+
+
+      <!-- General Info Tab -->
+      <div class="tab-pane fade " id="general" role="tabpanel" aria-labelledby="general-tab">
+        <h3>General Information</h3>
+        <p>Description: {{ cryptocurrency.description }}</p>
+        <p>Website: <a href="{{ cryptocurrency.website }}" target="_blank">{{ cryptocurrency.website }}</a></p>
+        <!-- Add more general information fields as needed -->
+      </div>
+
+      <!-- Market Data Tab -->
+      <div class="tab-pane fade" id="market" role="tabpanel" aria-labelledby="market-tab">
+        <h3>Market Data</h3>
+        {% if trading_pair.market_data %}
+          <p>OHLCV Data: {{ trading_pair.market_data }}</p>
+        {% else %}
+          <p>No market data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- News Tab -->
+      <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+        <h3>News Releases</h3>
+        {% for news in cryptocurrency.news_set.all %}
+          <div>
+            <p>Title: {{ news.title }}</p>
+            <p>Content: {{ news.content }}</p>
+            <p>Source: <a href="{{ news.source }}" target="_blank">{{ news.source }}</a></p>
+            <p>Timestamp: {{ news.timestamp }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Trades Tab -->
+      <div class="tab-pane fade" id="trades" role="tabpanel" aria-labelledby="trades-tab">
+        <h3>Last Trades</h3>
+        {% for trade in cryptocurrency.trade_set.all %}
+          <div>
+            <p>Action: {{ trade.get_action_display }}</p>
+            <p>Quantity: {{ trade.quantity }}</p>
+            <p>Price: {{ trade.price }}</p>
+            <p>Timestamp: {{ trade.timestamp }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
 {% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  // Activate Bootstrap tabs
+  $(document).ready(function() {
+    $('#cryptoTabs a').on('click', function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+  });
+</script>
+{% endblock %}
+
+

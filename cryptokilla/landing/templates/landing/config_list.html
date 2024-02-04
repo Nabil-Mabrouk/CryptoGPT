@@ -1,11 +1,82 @@
 {% extends 'landing/base.html' %}
+{%load static%}
+
+{% block extra_css %}
+
+<style>
+    :root {
+        --main-font: 'Poppins', sans-serif;
+        /*TO DO : to be selected from a list */
+        --default-text-color: rgb(255, 255, 255);
+        /* Can be selected by user */
+        --background-image-url: url('{% static 'landing/images/header-background.jpg' %}');
+        /* sizes: 1280x720 or 1920x1080 */
+        --background-color-default: rgb(0, 0, 0, 0.3);
+        --navbar-background-color: transparent;
+        --navbar-scrolled-background-color: rgba(0, 0, 0, 0.3);
+        --navbar-scrolled-background-blur: 10px;
+        /*--btn-navbar-background-color: {{config.navbar_btn_color}};*/
+    }
+
+    body {
+        font-family: var(--main-font);
+        color: var(--default-text-color);
+        background: var(--background-image-url) var(--background-color-default);
+        background-blend-mode: multiply;
+        background-position: center;
+        background-size: cover;
+        /*background-repeat: no-repeat;*/
+    }
+
+    .navbar {
+        background-color: var(--navbar-background-color) !important;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .navbar-scrolled {
+        background-color: var(--navbar-scrolled-background-color);
+        backdrop-filter: blur(var(--navbar-scrolled-background-blur));
+    }
+
+    .navbar-btn {
+        background-color: var(--btn-navbar-background-color);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-  <h2>Config List</h2>
-  <ul>
-    {% for config in configs %}
-      <li><a href="{% url 'config-update' pk=config.id %}">{{ config }}</a> | <a href="{% url 'config-delete' pk=config.id %}">Delete</a></li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'config-create' %}">Create New Config</a>
+<section id="market" class="w-80 vh-100 d-flex flex-row justify-content-center align-items-start">
+  <div class="container" style="margin-top: 100px;">
+    <h2>Config List</h2>
+    <table id="configTable" class="table table-striped" style="width:100%">
+      <thead>
+        <tr>
+          <th>Config</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for config in configs %}
+          <tr>
+            <td><a href="{% url 'config-update' pk=config.id %}">{{ config }}</a></td>
+            <td><a href="{% url 'config-delete' pk=config.id %}">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'config-create' %}" class="btn btn-primary">Create New Config</a>
+  </div>
+  </section>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#configTable').DataTable();
+  });
+</script>
 {% endblock %}

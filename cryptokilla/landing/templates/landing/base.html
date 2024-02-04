@@ -25,15 +25,15 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+        <link href = "https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
 </head>
-<body class="w-100 vh-100">
+<body class="wh-100 vh-100">
 
     {% include 'landing/_snipets/navbar.html' %}
 
-    <main data-bs-spy="scroll" data-bs-target="#navbar" class="scrollspy-example position-relative top-10 p-3"
-    tabindex="0" style="margin-top:50px;">
+    <main data-bs-spy="scroll" data-bs-target="#navbar" class="scrollspy-example"  tabindex="0">
         {% block content %}
         {% endblock %}
     </main>
@@ -43,6 +43,7 @@
     <!-- Bootstrap JS and dependencies (popper.js and jquery) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <script>
         const navE1 = document.querySelector('.navbar')

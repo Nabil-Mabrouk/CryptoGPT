@@ -1,2 +1,6 @@
 venv
+venv2
 *.env
+*_pycache_*
+*migrations*
+

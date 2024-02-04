@@ -1,9 +1,54 @@
 {% extends 'landing/base.html' %}
+{%load static%}
+
+{% block extra_css %}
+
+<style>
+    :root {
+        --main-font: 'Poppins', sans-serif;
+        /*TO DO : to be selected from a list */
+        --default-text-color: rgb(255, 255, 255);
+        /* Can be selected by user */
+        --background-image-url: url('{% static 'landing/images/header-background.jpg' %}');
+        /* sizes: 1280x720 or 1920x1080 */
+        --background-color-default: rgb(0, 0, 0, 0.3);
+        --navbar-background-color: transparent;
+        --navbar-scrolled-background-color: rgba(0, 0, 0, 0.3);
+        --navbar-scrolled-background-blur: 10px;
+        /*--btn-navbar-background-color: {{config.navbar_btn_color}};*/
+    }
+
+    body {
+        font-family: var(--main-font);
+        color: var(--default-text-color);
+        background: var(--background-image-url) var(--background-color-default);
+        background-blend-mode: multiply;
+        background-position: center;
+        background-size: cover;
+        /*background-repeat: no-repeat;*/
+    }
+
+    .navbar {
+        background-color: var(--navbar-background-color) !important;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .navbar-scrolled {
+        background-color: var(--navbar-scrolled-background-color);
+        backdrop-filter: blur(var(--navbar-scrolled-background-blur));
+    }
+
+    .navbar-btn {
+        background-color: var(--btn-navbar-background-color);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-  <h2>Cryptocurrency News</h2>
-  <a href="{% url 'cryptocurrencynews-create' %}" class="btn btn-primary mb-3">Create News</a>
-  <table class="table">
+<section id="market" class="w-80 vh-100 d-flex flex-row justify-content-center align-items-start">
+  <div class="container mt-5 " >
+  <h2 style="margin-top: 50px;">Cryptocurrency News</h2>
+  <table id="newsTable" class="table table-striped" >
     <thead>
       <tr>
         <th>Cryptocurrency</th>
@@ -25,4 +70,28 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#newsTable').DataTable();
+  });
+  </script>
+
+<script>
+  const socket = new WebSocket('ws://' + window.location.host + '/ws/news/');
+
+  socket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      // Update the layout with the new news data
+      // You can use JavaScript to manipulate the DOM or a JavaScript framework like React or Vue.js.
+      console.log('Received news update:', data.message);
+  };
+</script>
 {% endblock %}

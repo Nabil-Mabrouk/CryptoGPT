@@ -1,0 +1,38 @@
+:root {
+    --main-font: 'Poppins', sans-serif;
+    /*TO DO : to be selected from a list */
+    --default-text-color: rgb(255, 255, 255);
+    /* Can be selected by user */
+    --background-image-url: url('header-backgroud.jpg');
+    /* sizes: 1280x720 or 1920x1080 */
+    --background-color-default: rgb(0, 0, 0, 0.7);
+    --navbar-background-color: transparent;
+    --navbar-scrolled-background-color: rgba(0, 0, 0, 0.5);
+    --navbar-scrolled-background-blur: 10px;
+
+    --btn-navbar-background-color: {{template.navbar.btn.color}};
+}
+
+body {
+    font-family: var(--main-font);
+    color: var(--default-text-color);
+    background: var(--background-image-url) var(--background-color-default);
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.navbar {
+    background-color: var(--navbar-background-color);
+    transition: all 0.5s ease-in-out;
+}
+
+.navbar-scrolled {
+    background-color: var(--navbar-scrolled-background-color);
+    backdrop-filter: blur(var(--navbar-scrolled-background-blur));
+}
+
+.navbar-btn {
+    background-color: var(--btn-navbar-background-color);
+}
