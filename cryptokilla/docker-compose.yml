@@ -13,13 +13,14 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/usr/src/cryptokilla
-      - static_volume:/usr/src/cryptokilla/staticfiles
-      - media_volume:/usr/src/cryptokilla/mediafiles
+      - .:/usr/src/app
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
     env_file: .env
-    command: ["sh", "-c", "python3 manage.py makemigrations; python3 manage.py migrate; python3 manage.py collectstatic --no-input; gunicorn cryptokilla.wsgi:application --bind 0.0.0.0:8000"]
+    command: ["sh", "-c", "python3 manage.py makemigrations; python3 manage.py migrate; python3 manage.py collectstatic --no-input; gunicorn cryptokilla.wsgi:application --bind 0.0.0.0:8002"]
     ports:
-      - 8000:8000
+      - 8002:8002
+    user: "www-data:www-data" 
     depends_on:
       - db
       - redis

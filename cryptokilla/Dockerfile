@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set work directory
-WORKDIR /usr/src/cryptokilla
+WORKDIR /usr/src/app
 
 # Copy project
 COPY . .
