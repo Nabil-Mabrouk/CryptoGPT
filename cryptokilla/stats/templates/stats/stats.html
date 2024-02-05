@@ -1,0 +1,22 @@
+<!-- statistics/templates/statistics/statistics.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Statistics</title>
+</head>
+<body>
+    <h1>User Statistics</h1>
+    <ul>
+        {% for visit in visits %}
+            <li>
+                User {{ visit.user }} visited on {{ visit.timestamp }}
+                {% if visit.city and visit.country %}
+                    from {{ visit.city }}, {{ visit.country }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
