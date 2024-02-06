@@ -11,10 +11,7 @@
     <ul>
         {% for visit in visits %}
             <li>
-                User {{ visit.user }} visited on {{ visit.timestamp }}
-                {% if visit.city and visit.country %}
-                    from {{ visit.city }}, {{ visit.country }}
-                {% endif %}
+                User {{ visit.user }} visited on {{ visit.datetime }} from {{ visit.remote_ip }}
             </li>
         {% endfor %}
     </ul>

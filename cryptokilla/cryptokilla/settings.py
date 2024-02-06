@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'allauth', # new
     'allauth.account', # new
-    'user_visit',
+    'easyaudit',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'user_visit.middleware.UserVisitMiddleware',
+    'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
 ]
 
 ROOT_URLCONF = 'cryptokilla.urls'
